@@ -1,0 +1,121 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}ViewProfile{% endblock %}
+{% block content %}
+<style>
+.profile{
+padding: 3%;
+margin-top: 3%;
+margin-bottom: 3%;
+border-radius: 0.5rem;
+background: #fff;
+}
+.profile-img{
+text-align: center;
+}
+.profile-img .file {
+position: relative;
+overflow: hidden;
+margin-top: -20%;
+width: 70%;
+border: none;
+border-radius: 0;
+font-size: 15px;
+background: #212529b8;
+}
+</style>
+
+<br><br><br><br>
+<div class="container profile">
+        <h2 style="text-align:center; font-style: italic;"><u>Student Profile</u></h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="{{user.profile.image.url}}" alt="" width="310px" height="270px">
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="profile-tab">
+                    <div class="tab-pane">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b><label>ID:</label></b>
+                            </div>
+                            <div class="col-md-6">
+                                <b><p>{{user.id}}</p></b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b><label>Username:</label></b>
+                            </div>
+                            <div class="col-md-6">
+                                <b><p>{{user}}</p></b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b><label>Full Name:</label></b>
+                            </div>
+           
+                            <div class="col-md-6">
+                                <b><p>{{user.get_full_name}}</p></b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b><label>Gender:</label></b>
+                            </div>
+           
+                            <div class="col-md-6">
+                                <b><p>{{user.profile.sgen}}</p></b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b><label>Email:</label></b>
+                            </div>
+                            <div class="col-md-6">
+                                <b><p>{{user.email}}</p></b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b><label>Phone Number:</label></b>
+                            </div>
+                            <div class="col-md-6">
+                                <b><p>{{user.profile.mobileno}}</p></b>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b><label>Branch:</label></b>
+                            </div>
+                            <div class="col-md-6">
+                                <b><p>{{user.profile.branch}}</p></b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b><label>Section:</label></b>
+                            </div>
+                            <div class="col-md-6">
+                                <b><p>{{user.profile.sec}}</p></b>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <b><label>Roll Number:</label></b>
+                            </div>
+                            <div class="col-md-6">
+                                <b><p>{{user.sid}}</p></b>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{% url 'editprofile' %}" style="width: 9rem;" class="btn btn-outline-primary mt-3">Edit Profile</a>
+                </div>
+            </div>
+</div>
+</div>
+{% endblock %}

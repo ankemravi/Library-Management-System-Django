@@ -1,0 +1,51 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}Profile{% endblock %}
+{% block content %}
+<br><br><br>
+<div class="container mt-4 ">
+	<div class="card col-md-12 mx-auto shadow-lg border border-success">
+		<div class="card-body">
+			<h2 class="bg-info text-light text-center p-2 my-2 border-rounded"><b><u>Profile Updation Purpose</u></b></h2>
+		    <form method="POST"> {% csrf_token %}
+				<div class="row mt-4">
+				    <div class="form-group col-md-6">
+				        <label><i style="font-weight: bold;">Email</i></label>
+				        <input type="email" class="form-control mt-2" name="email" value="{{user.email}}">
+				    </div>
+				    <div class="form-group col-md-6">
+				        <label><i style="font-weight: bold;">Mobile Number</i></label>
+				        <input type="number" class="form-control mt-2" name="mobileno" value="{{user.profile.mobileno}}">
+				    </div>
+				</div>
+
+				<div class="row mt-4">
+				    <div class="form-group col-md-6">
+				        <label><i style="font-weight: bold;">Branch Name</i></label>
+				        <input type="text" class="form-control mt-2" name="branch" value="{{user.profile.branch}}">
+				    </div>
+				    <div class="form-group col-md-6">
+				        <label><i style="font-weight: bold;">Section</i></label>
+				        <input type="text" class="form-control mt-2" name="sec" value="{{user.profile.sec}}">
+				    </div>
+				</div>
+
+				<div class="row mt-4">
+				    <div class="form-group col-md-6">
+				        <label><i style="font-weight: bold;">Roll Number</i></label>
+				        <input type="text" class="form-control mt-2" name="sid" value="{{user.sid}}">
+				    </div>
+				</div>
+		    <button type="submit" class="btn btn-outline-primary mt-5 col-md-12">Update Profile</button>
+		</form>
+		</div>
+	</div>
+</div>
+
+<script>
+    {% if alert %}
+    alert("Profile Updated Successfully.")
+    document.location = "/viewprofile"
+    {% endif %}
+</script>
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends 'html/base.html' %}
+{% block title %}RequestedBooks{% endblock title %}
+{% block content %}
+<br><br><br><br>
+<div class="card mt-4 shadow border rounded border-primary">
+    <div class="card-header">
+        <h4 class="text-center"> Total Books Requested By You</h4>
+    </div>
+    <div class="card-body">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                 {{message}}
+              </div>
+            {% endfor %}
+        {% endif %}
+        {% if book_requests %}
+            <table class="table table-hover border ">
+                <thead class="text-light bg-primary">
+                    <tr>
+                        <th>Sno.</th>
+                        <th>BookName</th>
+                        <th>Author</th>
+                        <th>Request Date</th>
+                        <th>ApprovalStatus</th>
+                        <th>Return Status</th>
+                        <th>Cancel Requests</th>
+                        <th>Return</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in book_requests %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{ request.book.bname }}</td>
+                        <td>{{ request.book.authname }}</td>
+                        <td>{{ request.request_date }}</td>
+                        <td>
+                            {% if request.status_to_approve == 'Pending' %}
+                                <span class="badge badge-warning">Pending</span>
+                            {% elif request.status_to_approve == 'Approved' %}
+                                <span class="badge badge-success">Approved</span>
+                            {% elif request.status_to_approve == 'Rejected' %}
+                                <span class="badge badge-danger">Rejected</span>
+                            {% endif %}
+                        </td>
+                        
+                        <td>
+                            {% if request.return_status == 'Pending' %}
+                                <span class="badge badge-warning">Pending</span>
+                            {% elif request.return_status == 'Returned' %}
+                                <span class="badge badge-success">Returned</span>
+                            {% endif %}
+                        </td>
+                        
+                        <td>
+                            {% if request.status_to_approve == 'Approved' %}
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmCancelModal{{ request.id }}">
+                                Cancel
+                            </button>
+                            
+                            {% else %}
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmCancelModal{{ request.id }}">
+                                Cancel
+                            </button>
+                            {% endif %}
+
+                            <div class="modal fade" id="confirmCancelModal{{ request.id }}" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="confirmCancelModalLabel">Confirm Cancellation</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to cancel the request for the book "{{ request.book.bname }}"?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary " data-dismiss="modal">Close</button>
+                                            <!-- Form to handle the cancellation -->
+                                            <form method="post" action="{% url 'cancelrequest' request.id %}">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">Cancel Request</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            {% if request.return_status == 'Pending' %}
+                            <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#returnModal{{ forloop.counter }}">
+                                Return
+                            </button>
+                            {% else %}
+                                <span class="badge badge-success">Returned</span>
+                            {% endif %}
+
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="returnModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="returnModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="returnModalLabel">Confirm Return</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to return the book "{{ request.book.bname }}"?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <form method="post" action="{% url 'returnbook' request.id %}">
+                                            {% csrf_token %}
+                                            <input type="submit" class="btn btn-success" value="Return Book">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h1>No books have been requested by you</h1>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

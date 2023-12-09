@@ -1,0 +1,36 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}Request Book{% endblock %}
+{% block content %}
+<br><br><br>
+<div class="container mt-4">
+	<div class="card col-md-4 mx-auto shadow-lg border border-success">
+		<div class="card-body">
+			<form method="post">
+				<h2 class="bg-info text-light text-center p-2 my-2 border-rounded"><b><u>Request Book</u></b></h2>
+			    {% csrf_token %}
+			    <div class="row mt-3">
+			        <div class="form-group col-md-12">
+			            <label style="font-weight: bold;">BookNo</label>
+			            <input type="text" class="form-control mt-2" name="userid" value="{{req.username}}" readonly>
+			        </div>
+			    </div>
+			    <div class="row mt-3">
+			        <div class="form-group col-md-12">
+			            <label style="font-weight: bold;">Username</label>
+			            <input type="text" class="form-control mt-2" name="userid" value="{{bookid}}" readonly>
+			        </div>
+			    </div>
+				<div class="row">
+					<div class="col">
+			            <a href="{% url 'hm' %}" class="btn btn-warning form-control">No</a>
+			         </div>
+					<div class="col">
+			            <input type="submit" value="Confirm" name="" class="btn btn-success form-control">
+			        </div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

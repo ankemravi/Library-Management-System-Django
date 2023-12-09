@@ -1,0 +1,56 @@
+{% extends 'html/base.html' %}
+{% block title %}ApprovedRequests{% endblock title %}
+{% block content %}
+<br><br><br><br>
+<div class="card mt-4 shadow border rounded border-primary">
+    <div class="card-body">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                 {{message}}
+              </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+        <div class="card  border rounded border-primary mt-3">
+    <h4 class="card-header">Aproved Status and Return Pending</h4>
+    <div class="card-body">
+        {% if approve %}
+        <table class="table table-hover table-striped border">
+            <thead class="bg-secondary text-light">
+                <th>Sno.</th>
+                <th>Book Title</th>
+                <th>Approved To</th>
+                <th>Approved By</th>
+                <th>Requested Date</th>
+                <th>Approved Date</th>
+                <th>Return status</th>
+                
+            </thead>
+                     {% for i in approve %}
+            <tbody>
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.book.bname}}</td>
+                <td>{{i.requested_by_student.username}} ,{{i.requested_by.eid}}</td>
+                <td>{{i.approved_by_teacher.username}} ,{{i.approved_by_teacher.eid}}</td>
+                <td>{{i.request_date}}</td>
+                <td>{{i.approved_date}}</td>
+                <td>{% if i.return_status == 'Pending' %}
+                      <span class="badge badge-warning">Pending</span>
+                  {% elif i.return_status == 'Returned' %}
+                      <span class="badge badge-success">Returned</span>
+                  {% endif %}
+               </td>
+              </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No Approved book  at the moment.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

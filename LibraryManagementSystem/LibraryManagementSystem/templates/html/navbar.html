@@ -1,0 +1,119 @@
+{% load static %}
+<nav class="navbar navbar-expand-md bg-dark navbar-dark fixed-top">
+  <a class="navbar-brand" href="{% url 'hm' %}">
+    <img src="{% static 'images/library1.jpg' %}" class="rounded-circle" style="width:50px">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      {% if not user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'hm' %}">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link nav-link {% if request.path == '/abt/' %}active{% endif %}" href="{% url 'abt' %}">AboutUs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link nav-link {% if request.path == '/cnt/' %}active{% endif %}" href="{% url 'cnt' %}">ContactUs</a>
+      </li> 
+      <li class="nav-item">
+        <a class="nav-link {% if request.path == '/reg/' %}active{% endif %}" href="{% url 'reg' %}">Registration</a>
+      </li>  
+      {% else %}
+      <!-- <li class="nav-item">
+        <a class="nav-link nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'hm' %}">Library Management System</a>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'hm' %}">Home</a>
+      </li>
+      {% if request.user.role_type == '1' %}
+      {% if request.user.has_stregister == 1 %}
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link {% if request.path == '/profile/' %}active{% endif %}" href="{% url 'profile' %}">FullRegistration</a>
+      </li>
+      {% endif %}
+     <!--  <li class="nav-item">
+        <a class="nav-link {% if request.path == '' %}active{% endif %}" href="#">ViewAllBooks</a>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link {% if request.path == '/requestedbooks/' %}active{% endif %}" href="{% url 'requestedbooks' %}">RequestedBooks</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'stapprovedbooks' %}">AllApprovedBooks</a>
+      </li>
+      <li class="nav-item">
+        <div class="dropdown">
+          <a  class="nav-link dropdown-toggle" data-toggle="dropdown">
+            Profile
+          </a>
+          <div class="dropdown-menu">
+            <a  class="dropdown-item" href="{% url 'viewprofile' %}">ViewProfile</a>
+            <a class="dropdown-item" href="{% url 'changepassword' %}">ChangePassword</a>
+          </div>
+        </div> 
+      </li>
+      
+      <!-- <li class="nav-item">
+        <a class="nav-link {% if request.path == '/changepassword/' %}active{% endif %}" href="{% url 'changepassword' %}">Change_Password</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'viewprofile' %}">ViewProfile</a>
+      </li> -->
+      {% elif request.user.role_type == '2' %}
+      <li class="nav-item">
+        <a class="nav-link {% if request.path == '/viewstudents/' %}active{% endif %}" href="{% url 'viewstudents' %}">ViewAllStudents</a>
+      </li>
+      <li class="nav-item">
+        <div class="dropdown">
+          <a  class="nav-link dropdown-toggle" data-toggle="dropdown">
+            Books
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'addbook' %}">AddBooks</a>
+            <a class="dropdown-item" href="{% url 'viewbook' %}">ViewAllBooks</a>
+            <!-- <a class="dropdown-item {% if request.path == '/lgt/' %}active{% endif %}" href="{% url 'lgt' %}">LogOut</a> -->
+          </div>
+        </div> 
+      </li>
+      <li class="nav-item">
+       <div class="dropdown">
+          <a  class="nav-link dropdown-toggle" data-toggle="dropdown">
+            IssueBooks
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{% url 'allrequests' %}">AllRequests</a>
+            <a class="dropdown-item" href="{% url 'lbapprovedbooks' %}">ViewAllApprovedBooks</a>
+            <!-- <a class="dropdown-item {% if request.path == '/lgt/' %}active{% endif %}" href="{% url 'lgt' %}">LogOut</a> -->
+          </div>
+        </div> 
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="#">Access-Denied</a>
+      </li>
+      {% endif %}     
+      {% endif %}  
+    </ul>
+    <ul class="navbar-nav ml-auto" style="margin-right: 120px;">
+      {% if user.is_authenticated %}
+        <div class="dropdown">
+          <a  class="nav-link dropdown-toggle" data-toggle="dropdown">
+            Welcome {{request.user.username}}
+          </a>
+          <div class="dropdown-menu">
+            <!-- <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" href="#">Change Password</a> -->
+            <a class="dropdown-item {% if request.path == '/lgt/' %}active{% endif %}" href="{% url 'lgt' %}">LogOut</a>
+          </div>
+        </div>      
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link {% if request.path == '/lgo/' %}active{% endif %}" href="{% url 'lgo' %}">Login</a>
+      </li> 
+      {% endif %}
+    </ul>
+  </div>  
+</nav>

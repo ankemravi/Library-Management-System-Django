@@ -1,0 +1,46 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}ViewBooks{% endblock %}
+{% block content %}
+<br><br><br>
+<div class="container mt-4 ">
+    <div class="p-4 bg-light">
+
+    <h1 class="text-center"><u>All Books List</u></h1>
+    <table class="table table-hover" id="example">
+        <thead>
+            <tr>
+                <th>Sr.No</th>
+                <th>Book Name</th>
+                <th>Author</th>
+                <th>Copies</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ book.bname }}</td>
+                <td>{{ book.authname }}</td>
+                <td>{{ book.ncopies }}</td>
+                <td>{{ book.description }}</td>
+                <td>
+                    {% if book.ncopies > 0 %}
+                            <p class="badge badge-success">Available</p>
+                            {% else %}
+                            <p class="badge badge-danger">Unavailable</p>
+                            {% endif %}
+                </td>
+                <td>
+                            <a href="{% url 'deletebook' book.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this book?')">Delete</a>
+                        
+                    </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

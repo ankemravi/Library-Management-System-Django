@@ -1,0 +1,50 @@
+{% extends 'html/base.html' %}
+{% block title %}RequestedBooks{% endblock title %}
+{% block content %}
+<br><br><br>
+
+
+
+<div class="card mt-4 shadow border rounded border-primary">
+    <div class="card-header">
+            <h4 class="text-center">ReturnedBooks</h4>
+    </div>
+    
+    <div class="card-body">
+        {% if book_approved %}
+        <table class="table table-hover border">
+            <thead class="text-light bg-warning">
+                <tr>
+                    <th>Sno.</th>
+                    <th>Book Name</th>
+                    <th>Author</th>
+                    <th>Approved Date</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>BookFine</th>
+                    <th>PayFine</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book_approve in book_approved %}
+                <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{book_approve.book.bname}}</td>
+                <td>{{book_approve.book.authname}}</td>
+                <td>{{book_approve.approved_date}}</td>
+                <td>{{book_approve.due_date}}</td>
+                <td>{{book_approve.return_date}}</td>
+                <td>Rs.{{book_approve.fine_amount}}/-</td>
+                <td>
+                    <a href="#" class="btn btn-primary btn-sm ">Pay Now</a>
+                </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p> No Books Approved</p>
+        {% endif %}  
+    </div>    
+</div>
+{% endblock %}

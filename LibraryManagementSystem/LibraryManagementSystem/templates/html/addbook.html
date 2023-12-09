@@ -1,0 +1,27 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}AddBook{% endblock %}
+{% block content %}
+<br><br><br>
+<div class="container mt-4">
+	<div class="card col-md-4 mx-auto shadow-lg border border-success">
+		<div class="card-body">
+			<h4>Add Book</h4>
+			<form method="post">
+				{% csrf_token %}
+				{% for i in y %}
+					{{i}}
+				{% endfor %}
+				<div class="row">
+					<div class="col">
+						<input type="reset" value="Clear" class="btn btn-danger form-control">
+					</div>
+					<div class="col">
+						<input type="submit" value="AddBook" class="btn btn-success form-control">
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

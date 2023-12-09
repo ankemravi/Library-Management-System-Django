@@ -1,0 +1,45 @@
+
+{% extends 'html/base.html' %}
+{% block title %}Lb approved Books{% endblock title %}
+{% block content %}
+
+<br><br><br>
+<div class="card  border rounded border-primary mt-3">
+    <h4 class="card-header">All Approved Books </h4>
+    <div class="card-body">
+        {% if approvedbooks %}
+        <table class="table table-hover table-striped border">
+            <thead class="bg-secondary text-light">
+                <th>Sno.</th>
+                <th>Book Name</th>
+                <th>Approved To</th>
+                <th>Requested Date</th>
+                <th>Approved Date</th>
+                <th>Return status</th>
+                
+            </thead>
+            {% for i in approvedbooks %}
+            <tbody>
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{i.book.bname}}</td>
+                <td>{{i.requested_by_student.username}} ,{{i.requested_by.sid}}</td>
+                <td>{{i.request_date}}</td>
+                <td>{{i.approved_date}}</td>
+                <td>{% if i.return_status == 'Pending' %}
+                      <span class="badge badge-warning">Pending</span>
+                  {% elif i.return_status == 'Returned' %}
+                      <span class="badge badge-success">Returned</span>
+                  {% endif %}
+               </td>
+              </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>There is No Approved Books</p>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}ViewAllRequests{% endblock %}
+{% block content %}
+<br><br><br>
+<div class="card  border rounded border-primary">
+    <h4 class="card-header text-center ">Pending status</h4>
+    <div class="card-body">
+      {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                 {{message}}
+              </div>
+            {% endfor %}
+        {% endif %}
+        {% if pending %}
+        <table class="table table-hover table-striped border">
+          <thead class="bg-secondary text-light">
+            <tr>
+              <th>Sno.</th>
+              <th>Book Title</th>
+              <th>BookCopies</th>
+              <th>Student name</th>
+              <th>Pin No</th>
+              <th>Request Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for book_request in pending %}
+              <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{ book_request.book.bname }}</td>
+                <td>{{book_request.book.ncopies}}</td>
+                <td>{{ book_request.requested_by.username }}</td>
+                <td>{{book_request.requested_by.sid}}</td>
+                <td>{{ book_request.request_date }}</td>
+                <td>
+                    {% if book_request.book.ncopies > 0 %}
+                  <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#confirmModal{{ book_request.id }}">Approve</button>
+                  {% else %}
+                  <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#rejectModal{{ book_request.id }}">Reject</button>
+                </td>
+                {% endif %}
+              </tr>
+  
+              
+              <div class="modal fade" id="confirmModal{{ book_request.id }}" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="confirmModalLabel">Confirm Action</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Are you sure you want to approve the book request for "{{ book_request.book.bname }}" by "{{ book_request.requested_by.username }}"?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                      <a href="{% url 'approverequests' book_request.id %}" class="btn btn-primary">Confirm</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+  
+              
+              <div class="modal fade" id="rejectModal{{ book_request.id }}" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="rejectModalLabel">Confirm Action</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <p>Are you sure you want to reject the book request for "{{ book_request.book.bname }}" by "{{ book_request.requested_by.username }}"?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                      <a href="{% url 'rejectrequests' book_request.id %}" class="btn btn-danger">Confirm</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No pending book requests at the moment.</p>
+      {% endif %}
+    </div>
+</div>
+{% endblock %}

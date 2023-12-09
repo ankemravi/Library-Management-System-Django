@@ -1,0 +1,28 @@
+{% extends 'html/base.html' %}
+{% block title %} Delete Book {% endblock %}
+{% block content %}
+<br><br><br><br>
+<div class="container">
+  <div class=" card col-md-6 mx-auto shadow-lg">
+    {% for i in h %}
+    <h3 class="bg-warning text-light text-center p-2 my-2 border-rounded">Delete Book:  {{i.bname}}</h3>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        <h5>Are you sure want to delete ??</h5>
+        <h6>Book name: {{i.bname}}</h6>
+        <p class="text-secondary">Deleted record will not retrieve in future</p>
+        <div class="row">
+          <div class="col">
+            <a href="{% url 'viewbook' %}" class="btn btn-danger form-control">No</a>
+          </div>
+           <div class="col">
+             <input type="submit" value="Yes Confirm" name="" class="btn btn-success form-control">
+           </div>
+        </div>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+  {% endblock %}
+  
